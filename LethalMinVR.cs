@@ -2,7 +2,7 @@ using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
-using LCVR.Player;
+using LCVR.Managers;
 using UnityEngine;
 
 namespace LethalMinVR

@@ -1,6 +1,6 @@
 using HarmonyLib;
 using LCVR;
-using LCVR.Player;
+using LCVR.Managers;
 using LCVR.UI;
 using LethalMin;
 using LethalMin.HUD;

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using LCVR.Managers;
 using LCVR.Player;
 using LethalMin;
 using LethalMin.HUD;
@@ -11,15 +12,15 @@ namespace LethalMinVR.Patches
     [HarmonyPatch(typeof(OnionHUDManager))]
     public class OnionHUDManagerPatch
     {
+        static VRPlayer LocalPlayer => VRSession.Instance.LocalPlayer;
         [HarmonyPatch(nameof(OnionHUDManager.OpenMenu))]
         [HarmonyPrefix]
         private static void OpenMenuPostfix(OnionHUDManager __instance)
         {
             if (LethalMinVR.InVRMode && !__instance.IsMenuOpen)
             {
-                VRSession.Instance.LocalPlayer.leftHandInteractor.enabled = true;
-                VRSession.Instance.LocalPlayer.rightHandInteractor.enabled = true;
-                VRSession.Instance.LocalPlayer.EnableInteractorVisuals();
+                LocalPlayer.EnableUIInteractors();
+                LocalPlayer.PrimaryController.ShowDebugInteractorVisual(false);
             }
         }
 
@@ -34,9 +35,8 @@ namespace LethalMinVR.Patches
 
             if (LethalMinVR.InVRMode)
             {
-                VRSession.Instance.LocalPlayer.leftHandInteractor.enabled = !VRSession.Instance.LocalPlayer.PlayerController.isPlayerDead;
-                VRSession.Instance.LocalPlayer.rightHandInteractor.enabled = !VRSession.Instance.LocalPlayer.PlayerController.isPlayerDead;
-                VRSession.Instance.LocalPlayer.EnableInteractorVisuals(false);
+                LocalPlayer.EnableUIInteractors(false);
+                LocalPlayer.PrimaryController.ShowDebugInteractorVisual();
             }
         }
     }
